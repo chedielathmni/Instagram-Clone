@@ -9,14 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profile")
+     * @Route("/profile", name="profile")
      */
-    public function number()
+    public function index()
     {
-        $number = random_int(0, 100);
-
-        return $this->render('profile.html.twig', [
-            'number' => $number,
-        ]);
+        return $this->render('profile.html.twig');
     }
 }
