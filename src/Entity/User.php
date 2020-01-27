@@ -40,6 +40,11 @@ class User implements UserInterface
      */
     private $username;
 
+    /**
+     * @ORM\Column(type="object", nullable=true)
+     */
+    private $profile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +69,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -121,6 +126,18 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    public function setProfile($profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }
