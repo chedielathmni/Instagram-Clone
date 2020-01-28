@@ -5,12 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -41,7 +42,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="object", nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="owner", cascade={"persist", "remove"})
      */
     private $profile;
 
@@ -106,6 +107,11 @@ class User implements UserInterface
         return $this;
     }
 
+
+    public function getSlug(): string
+    {
+        return (new Slugify())->slugify($this->username);
+    }
     /**
      * @see UserInterface
      */
@@ -130,15 +136,38 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getProfile()
+    public function getProfile(): ?Profile
     {
         return $this->profile;
     }
 
-    public function setProfile($profile): self
+    public function setProfile(?Profile $profile): self
     {
         $this->profile = $profile;
 
+        // set (or unset) the owning side of the relation if necessary
+        $newOwner = null === $profile ? null : $this;
+        if ($profile->getOwner() !== $newOwner) {
+            $profile->setOwner($newOwner);
+        }
+
         return $this;
+    }
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->password,
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized);
     }
 }
