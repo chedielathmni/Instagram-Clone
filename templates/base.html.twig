@@ -28,7 +28,7 @@
             style="border-right: 1px solid #333; height: 50px" />
         </div>
         <div class="ml-3 pt-2">
-          Instagram clone
+          <h4>Instagram clone</h4>
         </div>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -46,7 +46,7 @@
           {% if app.user %}
           <div class="mb-3">
             {% if Current_menu is defined and Current_menu == 'profile' and user == app.user %}
-            <a class="link" href="{{path('profile.edit', {id: app.user.id, slug: app.user.getSlug()})}} ">
+            <a class="link" href="{{path('profile.edit', {id: user.id, slug: app.user.getSlug()})}} ">
               <i class="fas fa-cog mx-3"></i>
             </a>
             {% else %}
@@ -58,10 +58,14 @@
           </div>
           {% else %}
           <li class="nav-item">
-            <a class="link" class="nav-link" href={{path('app_login')}}>Login</a>
+            <a class="link" class="nav-link" href={{path('app_login')}}>
+              <h4>Login</h4>
+            </a>
           </li>
-          <li class="nav-item">
-            <a class="link" class="nav-link" href={{path('app_register')}}>Register</a>
+          <li class="nav-item ml-3">
+            <a class="link" class="nav-link" href={{path('app_register')}}>
+              <h4>Register</h4>
+            </a>
           </li>
           {% endif %}
         </ul>

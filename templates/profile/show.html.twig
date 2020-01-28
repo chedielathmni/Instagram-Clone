@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Profile
+{{user.username}} Profile
 {% endblock %}
 
 {% block body %}
 <div class="container" style="width: 60%">
   <div class="row">
     <div class="col-4 pt-2 pr-3">
-      <img
-        src="https://instagram.ftun10-1.fna.fbcdn.net/v/t51.2885-19/s150x150/57377609_402025283858250_4531039340200984576_n.jpg?_nc_ht=instagram.ftun10-1.fna.fbcdn.net&_nc_ohc=Q-ZQIiXT_MEAX8Dkb6b&oh=340c3d960033c3731791bde2276e877f&oe=5ED247B2"
-        class="rounded-circle mt-4 ml-5" />
+      <img src="{{user.profile.profilePicture}}" class="rounded-circle mt-4 ml-5" />
     </div>
     <div class="col-8 pt-2 pl-2">
       <div>
         <h1>
-          epi.educationalgroup
+          {{user.profile.name}}
         </h1>
       </div>
       <div class="d-flex">
@@ -23,27 +21,18 @@ Profile
           <strong>153</strong> posts
         </div>
         <div class="pl-5 pr-5">
-          <strong>23k</strong> followers
+          <strong>{{user.profile.followers | length}}</strong> followers
         </div>
         <div>
-          <strong>212</strong> following
+          <strong>{{user.profile.following | length}}</strong> following
         </div>
       </div>
       <div class="pt-3">
-        <strong>EPI Educational Group</strong>
+        <strong>{{user.profile.bio}}</strong>
       </div>
       <div>
-        ➡️Polytechnique
-      </div>
-      <div>
-        ➡️Business School
-      </div>
-      <div>
-        ➡️Architecture
-      </div>
-      <div>
-        <a href="https://www.episup.com/" target="_blank">
-          <strong>https://www.episup.com/</strong>
+        <a href="{{user.profile.website}}" target="_blank">
+          <strong>{{user.profile.website}}</strong>
         </a>
       </div>
     </div>

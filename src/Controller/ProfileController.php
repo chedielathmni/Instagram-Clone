@@ -34,15 +34,8 @@ class ProfileController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function show(User $user, string $slug): Response
+    public function show(User $user): Response
     {
-        dump($user);
-        if ($user->getSlug() !== $slug) {
-            return $this->redirectToRoute('profile.show', [
-                'id' => $user->getId(),
-                'slug' => $user->getSlug()
-            ], 301);
-        }
         return $this->render('profile\show.html.twig', [
             'user' => $user,
             'Current_menu' => 'profile'
@@ -56,13 +49,11 @@ class ProfileController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function edit(User $user, string $slug, Request $req): Response
+    public function edit(string $slug, Request $req): Response
     {
+        $user = $this->getUser();
         if ($user->getSlug() !== $slug) {
-            return $this->redirectToRoute('profile.show', [
-                'id' => $user->getId(),
-                'slug' => $user->getSlug()
-            ], 301);
+            return $this->redirectToRoute('home');
         }
 
         $form = $this->createForm(UserType::class, $user);
