@@ -45,9 +45,15 @@
           <!-- Authentication Links -->
           {% if app.user %}
           <div class="mb-3">
-            <a class="link" href="{{ path('profile.show', {id: app.user.id, slug: app.user.getSlug()})}} ">
-              {{app.user.username}} <i class="fas fa-user mx-3"></i>
+            {% if Current_menu is defined and Current_menu == 'profile' and user == app.user %}
+            <a class="link" href="{{path('profile.edit', {id: app.user.id, slug: app.user.getSlug()})}} ">
+              <i class="fas fa-cog mx-3"></i>
             </a>
+            {% else %}
+            <a class="link" href="{{ path('profile.show', {id: app.user.id, slug: app.user.getSlug()})}} ">
+              <i class="fas fa-user mx-3"></i>
+            </a>
+            {% endif %}
             <a class="link" href="{{ path('app_logout') }}">Logout</a>
           </div>
           {% else %}

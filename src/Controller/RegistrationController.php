@@ -47,7 +47,11 @@ class RegistrationController extends AbstractController
             $this->get('security.token_storage')->setToken($token);
             $this->get('session')->set('_security_main', serialize($token));
 
-            return $this->redirectToRoute('profile');
+            if ($user->getProfile() == null) return $this->redirectToRoute('profile.new', [
+                'id' => $user->getId(),
+                'slug' => $user->getSlug()
+            ]);
+            else return $this->redirectToRoute('home');
 
             // do anything else you need here, like send an email
 

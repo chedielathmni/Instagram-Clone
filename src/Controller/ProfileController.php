@@ -18,6 +18,7 @@ class ProfileController extends AbstractController
      */
     public function show(User $user, string $slug): Response
     {
+        dump($user);
         if ($user->getSlug() !== $slug) {
             return $this->redirectToRoute('profile.show', [
                 'id' => $user->getId(),
@@ -28,5 +29,24 @@ class ProfileController extends AbstractController
             'user' => $user,
             'Current_menu' => 'profile'
         ]);
+    }
+
+
+    /**
+     * @Route("/{slug}-{id}/edit", name="profile.edit")
+     * @param User $user
+     * @param string $slug
+     * @return Response
+     */
+    public function edit(User $user, string $slug): Response
+    {
+        if ($user->getSlug() !== $slug) {
+            return $this->redirectToRoute('profile.show', [
+                'id' => $user->getId(),
+                'slug' => $user->getSlug()
+            ], 301);
+        }
+
+        return $this->render('profile\edit.html.twig', compact($user));
     }
 }
