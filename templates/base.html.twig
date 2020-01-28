@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+{% block head %}
 
 <head>
   <meta charset="UTF-8" />
@@ -8,6 +9,7 @@
     Welcome!
     {% endblock %}
   </title>
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   {% block stylesheets %}
   <style>
     .link:hover {
@@ -17,6 +19,8 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
   {% endblock %}
 </head>
+{% endblock %}
+
 
 <body>
   <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
