@@ -36,6 +36,7 @@ class ProfileController extends AbstractController
      */
     public function show(User $user): Response
     {
+        dump($user);
         return $this->render('profile\show.html.twig', [
             'user' => $user,
             'Current_menu' => 'profile'
