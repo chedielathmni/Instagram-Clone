@@ -7,9 +7,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Form\UserType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends AbstractController
 {
+
+
+    /**
+     * @var UserRepository
+     */
+    private $repository;
+
+    public function __construct(UserRepository $repository, EntityManagerInterface $em)
+    {
+        $this->repository = $repository;
+        $this->em = $em;
+    }
+
+
     /**
      * @Route("/{slug}-{id}", name="profile.show", requirements={"slug": "[a-z0-9\-]*"})
      * @param Profile $profile
@@ -38,7 +56,7 @@ class ProfileController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function edit(User $user, string $slug): Response
+    public function edit(User $user, string $slug, Request $req): Response
     {
         if ($user->getSlug() !== $slug) {
             return $this->redirectToRoute('profile.show', [
@@ -47,6 +65,22 @@ class ProfileController extends AbstractController
             ], 301);
         }
 
-        return $this->render('profile\edit.html.twig', compact($user));
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            return $this->redirectToRoute('profile.show', [
+                'id' => $user->getId(),
+                'slug' => $user->getSlug()
+            ]);
+        }
+
+
+
+        return $this->render('profile\edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+        ]);
     }
 }
