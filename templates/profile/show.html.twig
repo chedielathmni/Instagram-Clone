@@ -4,6 +4,7 @@
 {{user.username}} Profile
 {% endblock %}
 
+
 {% block body %}
 <div class="container" style="width: 60%">
   <div class="row">
@@ -22,7 +23,7 @@
       </div>
       <div class="d-flex">
         <div>
-          <strong>153</strong> posts
+          <strong>{{posts | length}}</strong> posts
         </div>
         <div class="pl-5 pr-5">
           <strong>{{user.profile.followers | length}}</strong> followers
@@ -41,23 +42,20 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="container" style="width: 80%;">
 
   <div class="row pt-5">
-    <div class="col-4">
-      <img
-        src="https://instagram.ftun10-1.fna.fbcdn.net/v/t51.2885-15/e15/c180.0.719.719a/s640x640/79477092_608098273293344_5068264362374774313_n.jpg?_nc_ht=instagram.ftun10-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=OD8LyGcW520AX8R36qw&oh=ccb1d274dc883c7c26e2042b1f9f4a25&oe=5ED758C5"
-        class="w-100" />
+    {% for post in posts %}
+    <div class="col-4 image-container mb-4 align-items-center justify-content-center">
+      <a href="{{path('post.show', {postId:post.id, id: user.id, slug: user.getSlug()})}}">
+        <img src="{{vich_uploader_asset(post, 'imageFile')}}" class="w-100" />
+      </a>
     </div>
-    <div class="col-4">
-      <img
-        src="https://instagram.ftun10-1.fna.fbcdn.net/v/t51.2885-15/e15/c180.0.719.719a/s640x640/78786296_148665053211981_2643373042070107746_n.jpg?_nc_ht=instagram.ftun10-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=dP6RsQfgrH4AX8z8lnP&oh=aa55c616308d5ee169ba08fc3c85b825&oe=5EDB41CD"
-        class="w-100" />
-    </div>
-    <div class="col-4">
-      <img
-        src="https://instagram.ftun10-1.fna.fbcdn.net/v/t51.2885-15/e15/c180.0.719.719a/s640x640/79477092_608098273293344_5068264362374774313_n.jpg?_nc_ht=instagram.ftun10-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=OD8LyGcW520AX8R36qw&oh=ccb1d274dc883c7c26e2042b1f9f4a25&oe=5ED758C5"
-        class="w-100" />
-    </div>
+    {% endfor %}
+
   </div>
 </div>
 {% endblock %}

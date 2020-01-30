@@ -11,6 +11,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ProfileController extends AbstractController
 {
@@ -37,8 +38,11 @@ class ProfileController extends AbstractController
     public function show(User $user): Response
     {
         dump($user);
+        $posts = $user->getPosts()->getValues();
+        dump($posts);
         return $this->render('profile\show.html.twig', [
             'user' => $user,
+            'posts' => $posts,
             'Current_menu' => 'profile'
         ]);
     }
