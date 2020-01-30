@@ -12,6 +12,11 @@
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   {% block stylesheets %}
   <style>
+    a {
+      color: black;
+      text-decoration: none;
+    }
+
     .link:hover {
       text-decoration: none;
     }
@@ -50,15 +55,15 @@
           {% if app.user %}
           <div class="mb-3">
             {% if Current_menu is defined and Current_menu == 'profile' and user == app.user %}
-            <a class="link" href="{{path('profile.edit', {id: user.id, slug: app.user.getSlug()})}} ">
-              <i class="fas fa-cog mx-3"></i>
-            </a>
-            {% else %}
-            <a class="link" href="{{ path('profile.show', {id: app.user.id, slug: app.user.getSlug()})}} ">
-              <i class="fas fa-user mx-3"></i>
-            </a>
-            {% endif %}
-            <a class="link" href="{{ path('app_logout') }}">Logout</a>
+            <i class="link" href="{{path('profile.edit', {id: user.id, slug: app.user.getSlug()})}} ">
+              <i class="fas fa-cog fa-lg mx-3 spin"></i>
+              </a>
+              {% else %}
+              <a class="link" href="{{ path('profile.show', {id: app.user.id, slug: app.user.getSlug()})}} ">
+                <i class="fas fa-user fa-lg mx-3"></i>
+              </a>
+              {% endif %}
+              <a class="link navbar-brand" href="{{ path('app_logout') }}">Logout</a>
           </div>
           {% else %}
           <li class="nav-item">
@@ -79,10 +84,32 @@
   {% block body %}
 
   {% endblock %}
+  <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center">
+    <div class="col-md-2 ml-5"><a class="btn btn-light" href="{{path('home')}}"><i
+          class="fas fa-home fa-2x link"></i></a></div>
+    <div class="col-md-2 ml-3"><i class="fas fa-search fa-2x"></i></div>
+    <div class="col-md-2 ml-3"><i class="fas fa-plus-square fa-2x spin"></i></div>
+    <div class="col-md-2 ml-3"><i class="fas fa-heart fa-2x"></i></div>
+    <div class="col-md-2"><a class="btn btn-light"
+        href="{{ path('profile.show', {id: app.user.id, slug: app.user.getSlug()})}} "><i
+          class="fas fa-user fa-2x"></i></a></div>
+  </nav>
   {% block javascripts %}
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/43adf63c11.js" crossorigin="anonymous"></script>
+  <script>
+    $(".spin").hover(
+      function () {
+        $(this).addClass('fa-spin');
+      },
+      function () {
+        $(this).removeClass('fa-spin');
+      }
+    );
+  </script>
   {% endblock %}
 </body>
 
