@@ -37,9 +37,7 @@ class ProfileController extends AbstractController
      */
     public function show(User $user): Response
     {
-        dump($user);
         $posts = $user->getPosts()->getValues();
-        dump($posts);
         return $this->render('profile\show.html.twig', [
             'user' => $user,
             'posts' => $posts,

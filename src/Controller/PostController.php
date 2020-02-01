@@ -66,15 +66,17 @@ class PostController extends AbstractController
     /**
      * @Route("/{slug}-{id}/{postId}", name="post.show", requirements={"slug": "[a-z0-9\-]*", "postId": "[0-9]*"})
      * @param User $user
-     * @param Post $post
      * @return Response
      */
     public function show(User $user, int $postId): Response
     {
         $posts = $user->getPosts()->getValues();
-        return $this->render('post/show.html.twig', [
-            'user' => $user,
-            'post' => $posts[$postId - 1]
-        ]);
+        dump($posts);
+        if (isset($posts[$postId - 1]))
+            return $this->render('post/show.html.twig', [
+                'user' => $user,
+                'post' => $posts[$postId - 1]
+            ]);
+        else return new Response('not found');/* $this->redirectToRoute('home'); */
     }
 }
