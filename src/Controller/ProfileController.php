@@ -37,6 +37,7 @@ class ProfileController extends AbstractController
      */
     public function show(User $user): Response
     {
+        dump($user);
         $posts = $user->getPosts()->getValues();
         return $this->render('profile\show.html.twig', [
             'user' => $user,
@@ -76,5 +77,35 @@ class ProfileController extends AbstractController
             'user' => $user,
             'form' => $form->createView()
         ]);
+    }
+
+
+
+    /**
+     * @Route("/{slug}-{id}/follow", name="follow", requirements={"slug": "[a-z0-9\-]*"})
+     * @param User user
+     * @param string slug
+     * @return Response
+     */
+    public function follow(User $user): Response
+    {
+        $userPro = $this->getUser()->getProfile();
+        $userPro->addFollowing($user->getId());
+        $user->getProfile()->addFollowers($userPro->getId());
+        $this->em->flush();
+        return $this->render('profile/follow.html.twig');
+    }
+    /**
+     * @Route("/{slug}-{id}/unfollow", name="unfollow", requirements={"slug": "[a-z0-9\-]*"})
+     * @param User user
+     * @param string slug
+     * @return Response
+     */
+    public function unfollow(User $user): Response
+    {
+        $user->getProfile()->removeFollower($this->getUser()->getId());
+        $this->getUser()->getProfile()->removeFollowing($user->getId());
+        $this->em->flush();
+        return $this->render('profile/unfollow.html.twig');
     }
 }

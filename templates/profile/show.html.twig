@@ -19,6 +19,17 @@
       <div>
         <h1>
           {{user.profile.name}}
+          {% if app.user != user %}
+          {% if app.user.id in user.getProfile().getFollowers() %}
+          <a href="{{ path('unfollow', {id: user.id, slug: user.getSlug()})}} ">
+            <button class="btn btn-primary">Unfollow</button>
+          </a>
+          {% else %}
+          <a href="{{ path('follow', {id: user.id, slug: user.getSlug()})}} ">
+            <button class="btn btn-primary">Follow</button>
+          </a>
+          {% endif %}
+          {% endif %}
         </h1>
       </div>
       <div class="d-flex">

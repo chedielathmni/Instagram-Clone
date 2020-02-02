@@ -79,6 +79,8 @@ class Profile
     public function __construct()
     {
         $this->updatedAt = new \DateTime();
+        $this->following = [];
+        $this->followers = [];
     }
 
     public function getId(): ?int
@@ -147,6 +149,21 @@ class Profile
         return $this;
     }
 
+    public function addFollowers(int $i)
+    {
+        array_push($this->followers, $i);
+        return $this;
+    }
+
+    public function removeFollower(int $i)
+    {
+        foreach ($this->followers as $k => $val) {
+            if ($val == $i) {
+                unset($this->followers[$k]);
+            }
+        }
+    }
+
     public function getFollowing(): ?array
     {
         return $this->following;
@@ -157,6 +174,22 @@ class Profile
         $this->following = $following;
 
         return $this;
+    }
+
+    public function addFollowing(int $i)
+    {
+        array_push($this->following, $i);
+        return $this;
+    }
+
+
+    public function removeFollowing(int $i)
+    {
+        foreach ($this->following as $k => $val) {
+            if ($val == $i) {
+                unset($this->following[$k]);
+            }
+        }
     }
 
     public function getOwner(): ?User
